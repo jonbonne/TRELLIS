@@ -1,0 +1,32 @@
+services:
+  trellis-dev:
+    image: amd64/trellis_ros:rolling-latest
+    devices:
+      - /dev/nvidia0:/dev/nvidia0
+    runtime: nvidia
+    environment:
+      - DISPLAY=${DISPLAY}
+      - ROS_DOMAIN_ID=0
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    stdin_open: true
+    tty: true
+    volumes:
+      - /dev/shm:/dev/shm:rw
+      - /run/dbus:/run/dbus:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ~/.Xauthority:/root/.Xauthority:rw
+    cap_add:
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - SYS_RAWIO
+      - SYS_NICE
+      - SYS_TIME
+    network_mode: host
+    pid: host
+    ulimits:
+      memlock: -1
+      stack: -1
+      rtprio: 99
+      rttime: -1
+    command: sleep infinity

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<profiles xmlns="http://www.eprosima.com">
+    <participant profile_name="disable_multicast" is_default_profile="true">
+        <rtps>
+            <builtin>
+                <metatrafficUnicastLocatorList>
+                    <locator>
+                        <udpv4>
+                            <address>127.0.0.1</address>
+                        </udpv4>
+                    </locator>
+                    <locator>
+                        <udpv4>
+                            <address>10.100.100.1</address>
+                        </udpv4>
+                    </locator>
+                </metatrafficUnicastLocatorList>
+                <initialPeersList>
+                    <locator>
+                        <udpv4>
+                            <address>127.0.0.1</address>
+                        </udpv4>
+                    </locator>
+                    <locator>
+                        <udpv4>
+                            <address>10.100.100.1</address>
+                        </udpv4>
+                    </locator>
+                </initialPeersList>
+            </builtin>
+        </rtps>
+    </participant>
+</profiles>

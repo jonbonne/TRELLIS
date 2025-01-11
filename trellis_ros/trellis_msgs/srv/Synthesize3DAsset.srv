@@ -1,0 +1,8 @@
+string input_file
+string output_file
+uint64 random_seed # 1
+float32 simplify # 0.95
+uint32 texture_size # 1024
+---
+bool success
+string message

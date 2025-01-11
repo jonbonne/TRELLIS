@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<profiles xmlns="http://www.eprosima.com">
+
+    <!-- Transport Descriptors -->
+    <transport_descriptors>
+        <transport_descriptor>
+            <transport_id>shm_transport</transport_id>
+            <type>shm</type>
+            <properties>
+                <property>
+                    <name>max_message_size</name>
+                    <value>65536</value>
+                </property>
+                <property>
+                    <name>segment_size</name>
+                    <value>67108864</value>
+                </property>
+            </properties>
+        </transport_descriptor>
+        <transport_descriptor>
+            <transport_id>udp_transport</transport_id>
+            <type>UDPv4</type>
+        </transport_descriptor>
+    </transport_descriptors>
+
+    <!-- Shared Memory Transport -->
+    <participant profile_name="shared_memory" is_default_profile="true">
+        <rtps>
+            <name>SharedMemoryTransport</name>
+            <domainId>76</domainId>
+            <userTransports>
+                <transport_id>shm_transport</transport_id>
+            </userTransports>
+            <useBuiltinTransports>false</useBuiltinTransports>
+        </rtps>
+    </participant>
+
+    <!-- UDP Transport -->
+    <participant profile_name="udp" is_default_profile="true">
+        <rtps>
+            <name>UDPTransport</name>
+            <domainId>76</domainId>
+            <userTransports>
+                <transport_id>udp_transport</transport_id>
+            </userTransports>
+            <useBuiltinTransports>True</useBuiltinTransports>
+            <builtin>
+                <metatrafficUnicastLocatorList>
+                    <locator>
+                        <udpv4>
+                            <address>10.100.100.1</address>
+                        </udpv4>
+                    </locator>
+                    <locator>
+                        <udpv4>
+                            <address>10.100.100.4</address>
+                        </udpv4>
+                    </locator>
+                </metatrafficUnicastLocatorList>
+                <initialPeersList>
+                    <locator>
+                        <udpv4>
+                            <address>10.100.100.1</address>
+                        </udpv4>
+                    </locator>
+                    <locator>
+                        <udpv4>
+                            <address>10.100.100.4</address>
+                        </udpv4>
+                    </locator>
+                </initialPeersList>
+            </builtin>
+        </rtps>
+    </participant>
+</profiles>

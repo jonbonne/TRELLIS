@@ -1,0 +1,33 @@
+services:
+
+  trellis-ros:
+    restart: unless-stopped
+    extends:
+      file: trellis.yml
+      service: trellis-dev
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    volumes:
+      - ./config/fastdds-config.xml:/fastdds-config.xml
+      - ./config/cyclone-dds.xml:/cyclone-dds.xml
+      - ./config/trellis-ros.yaml:/root/trellis_ws/install/trellis_ros/share/trellis_ros/config/config.yaml
+      - ./scripts:/root/trellis_ws/scripts
+      - $HOME/trellis/models:/models
+      - $HOME/trellis/torch:/root/.cache/torch
+      - synthesis:/synthesis
+    command: ros2 launch trellis_ros trellis.launch.py
+
+  dynamic-reconfigure:
+    restart: unless-stopped
+    depends_on:
+      - trellis-ros
+    extends:
+      file: trellis.yml
+      service: trellis-dev
+    environment:
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    command: ros2 run rqt_reconfigure rqt_reconfigure
+
+volumes:
+  synthesis:
+    driver: local

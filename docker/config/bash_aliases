@@ -1,0 +1,29 @@
+source /opt/ros/${ROS_DISTRO}/setup.bash
+
+# source extras
+if [[ -d /opt/extras_ws/install ]]; then
+    echo -en "sourcing /opt/extras_ws/install\n"
+    source /opt/extras_ws/install/setup.bash
+fi
+
+# source aux_ros
+if [[ -d $TRELLIS_WS/install ]]; then
+    echo -en "sourcing $TRELLIS_WS/install\n"
+    source $TRELLIS_WS/install/setup.bash
+fi
+
+# ROS2 DDS Config
+unset CYCLONE_DDS_URI
+if [ "$RMW_IMPLEMENTATION" = "rmw_cyclonedds_cpp" ]; then
+    export CYCLONE_DDS_URI="$(cat /cyclone-dds.xml)"
+    echo "CYCLONE_DDS_URI:\n$CYCLONE_DDS_URI\n"
+fi
+
+if [ "$RMW_IMPLEMENTATION" = "rmw_fastrtps_cpp" ]; then
+  export FASTRTPS_DEFAULT_PROFILES_FILE=/fastdds-config.xml
+  echo "FASTRTPS_DEFAULT_PROFILES_FILE:\n$FASTRTPS_DEFAULT_PROFILES_FILE\n"
+fi
+
+source ${TRELLIS_VENV}/bin/activate
+alias ros2="python3 /opt/ros/rolling/bin/ros2"
+export PYTHONPATH="/opt/TRELLIS:/opt/nvdiffrast:/opt/spconv:$PYTHONPATH"

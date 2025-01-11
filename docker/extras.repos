@@ -1,0 +1,5 @@
+repositories:
+  ros2ai:
+    type: git
+    url: https://github.com/jonbonne/ros2ai.git
+    version: rolling

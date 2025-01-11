@@ -1,0 +1,7 @@
+trellis_server:
+  ros__parameters:
+    buffer_dir: /synthesis
+    timeout: 0.1
+    conversion_service: ~/generate
+    conversion_model: /models/TRELLIS-image-large
+    qsize: 1

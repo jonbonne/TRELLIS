@@ -1,0 +1,48 @@
+#!/opt/trellis_venv/bin/python3
+"""Entrypoint of trellis_ros package."""
+
+# System Imports #
+import sys
+import pygame
+
+# ROS Imports #
+import rclpy
+from rclpy.executors import MultiThreadedExecutor
+
+# Project Imports #
+from trellis_ros.server import TrellisServer
+
+def main(args=None):
+    """Entrypoint of trellis_ros_node."""
+    # Initialize the node.
+    pygame.init()
+    pygame.display.set_caption("Apptronik TTS: Synthesizer")
+    rclpy.init(args=args)
+
+    try:
+        # Create the node.
+        synth = TrellisServer()
+        if not synth.initialize():
+            synth.get_logger().error("Failed to initialize 3D asset engine. Exiting.")
+            sys.exit(1)
+
+        # Create a multithreaded executor.
+        executor = MultiThreadedExecutor(num_threads=8)
+        # Add the node to the executor.
+        executor.add_node(synth)
+        try:
+            executor.spin()
+        finally:
+            # Destroy the node.
+            synth.teardown()
+            # Shutdown the executor.
+            executor.shutdown()
+
+    finally:
+        # Shutdown the node.
+        rclpy.shutdown()
+        pygame.quit()
+
+
+if __name__ == '__main__':
+    main()
