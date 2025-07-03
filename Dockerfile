@@ -107,6 +107,11 @@ RUN git clone https://github.com/graphdeco-inria/diff-gaussian-rasterization.git
 WORKDIR $TRELLIS_WS
 
 RUN ${TRELLIS_VENV}/bin/pip install --upgrade \
+        "Cython>=0.29.37"
+
+
+ENV IGNORE_TORCH_VER="1"
+RUN ${TRELLIS_VENV}/bin/pip install --upgrade \
         flash-attn \
         spconv-cu120 \
         xformers \
